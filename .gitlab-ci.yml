@@ -1,0 +1,19 @@
+---
+include:
+  - project: ${CI_KANIKO_BASE}
+    ref: main
+    file:
+      # .kaniko-build
+      - operation_with_image.yaml
+
+variables:
+  KANIKO_CLI_DOCKER_BUILD_IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} --destination ${CI_REGISTRY_IMAGE}:8.7 --destination ${CI_REGISTRY_IMAGE}:latest"
+
+stages:
+  - build
+
+build:
+  stage: build
+  when: manual
+  extends:
+    - .kaniko-build
